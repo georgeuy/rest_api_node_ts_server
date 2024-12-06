@@ -2,6 +2,7 @@ import { Router } from "express"
 
 import { postProduct } from "./handlers/product.handler"
 import { body } from "express-validator"
+import { handleInputErrors } from "./middleware"
 
 
 const router = Router()
@@ -13,14 +14,14 @@ router.get('/', (req,res) => {
 })
 
 router.post('/',
-    
+
     body('name')
     .notEmpty().withMessage('El nombre del producto es requerido'), 
     
     body('price')
         .notEmpty().withMessage('El precio del producto es requerido')
         .custom( value => !isNaN (value) && value > 0 ).withMessage('Precio inválido'), 
-    
+    handleInputErrors,
     postProduct
 )
 
