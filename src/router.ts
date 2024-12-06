@@ -1,7 +1,6 @@
 import { Router } from "express"
 
-import { postProduct } from "./handlers/product.handler"
-import { body } from "express-validator"
+import { postProduct, getProducts } from "./handlers/product.handler"
 import { handleInputErrors } from "./middleware"
 
 
@@ -9,31 +8,20 @@ const router = Router()
 
 // routing
 
-router.get('/', (req,res) => {
-    res.send('GET')
-})
+const productsPrefix = '/products'
 
-router.post('/',
+router.get(productsPrefix, getProducts)
+router.post(productsPrefix,handleInputErrors,postProduct)
 
-    body('name')
-    .notEmpty().withMessage('El nombre del producto es requerido'), 
-    
-    body('price')
-        .notEmpty().withMessage('El precio del producto es requerido')
-        .custom( value => !isNaN (value) && value > 0 ).withMessage('Precio inválido'), 
-    handleInputErrors,
-    postProduct
-)
-
-router.put('/', (req,res) => {
+router.put(productsPrefix, (req,res) => {
     res.send('PUT')
 })
 
-router.patch('/', (req,res) => {
+router.patch(productsPrefix, (req,res) => {
     res.send('PATCH')
 })
 
-router.delete('/', (req,res) => {
+router.delete(productsPrefix, (req,res) => {
     res.send('DELETE')
 })
 
