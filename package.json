@@ -4,16 +4,24 @@
   "description": "REST API's with Express and TS",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/georgeuy/rest_api_node_ts_server.git"
+    "dev": "tsx watch ./src/index.ts",
+    "build": "npx tsc"
   },
   "author": "George Poliovei",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/georgeuy/rest_api_node_ts_server/issues"
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
   },
-  "homepage": "https://github.com/georgeuy/rest_api_node_ts_server#readme"
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.1",
+    "express-validator": "^7.2.0",
+    "pg": "^8.13.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.5",
+    "sequelize-typescript": "^2.1.6"
+  }
 }
