@@ -5,7 +5,7 @@ import router from "./router"
 // database
 import db from './config/db'
 
-export async function connectDB(){
+(async function connectDB(){
     try {
         await db.authenticate()
         db.sync()
@@ -14,9 +14,7 @@ export async function connectDB(){
         //console.log(error);
         console.log(colors.red.bold("Hubo un error al conectar a la base de datos de postgres"))
     }
-}
-
-connectDB()
+})()
 
 const server = express()
 

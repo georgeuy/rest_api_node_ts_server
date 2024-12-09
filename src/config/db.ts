@@ -4,9 +4,14 @@ import { Sequelize } from 'sequelize-typescript'
 //const dirModels = __dirname + "/../models/**/*.ts"
 const dirModels = path.join(__dirname, '..', 'models', '**', '*.ts')
 
+const useSSL = `${process.env.DATABASE_SSL}` === 'true'
+
 const db = new Sequelize(
     process.env.DATABASE_URI!,
     {
+        dialectOptions:{
+            ssl: useSSL
+        },
         models: [dirModels]
     }
 )

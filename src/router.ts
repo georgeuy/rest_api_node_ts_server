@@ -1,7 +1,7 @@
 import { Router } from "express"
 
-import { postProduct, getProducts } from "./handlers/product.handler"
-import { handleInputErrors } from "./middleware"
+import { postProduct, getProducts, putProduct, patchProduct, deleteProduct, getProductById } from "./handlers/product.handler"
+import { handleInputErrors, validateIdProduct, validateCreateProduct, validateUpdateProduct } from "./middleware"
 
 
 const router = Router()
@@ -11,18 +11,14 @@ const router = Router()
 const productsPrefix = '/products'
 
 router.get(productsPrefix, getProducts)
-router.post(productsPrefix,handleInputErrors,postProduct)
+router.get(`${productsPrefix}/:id`, validateIdProduct, handleInputErrors, getProductById)
 
-router.put(productsPrefix, (req,res) => {
-    res.send('PUT')
-})
+router.post(productsPrefix, validateCreateProduct, handleInputErrors, postProduct)
 
-router.patch(productsPrefix, (req,res) => {
-    res.send('PATCH')
-})
+router.put(`${productsPrefix}/:id`, validateIdProduct, validateUpdateProduct, handleInputErrors, putProduct)
 
-router.delete(productsPrefix, (req,res) => {
-    res.send('DELETE')
-})
+router.patch(`${productsPrefix}/:id`, validateIdProduct, patchProduct)
+
+router.delete(`${productsPrefix}/:id`, validateIdProduct, deleteProduct)
 
 export default router
