@@ -1,5 +1,8 @@
 import express from "express"
 import colors from "colors"
+import swaggerUi from 'swagger-ui-express'
+import swaggerSpect from "./config/swagger"
+
 import router from "./router"
 
 // database
@@ -9,10 +12,10 @@ import db from './config/db'
     try {
         await db.authenticate()
         db.sync()
-        console.log(colors.green.bold("Conexión a postgres exitosa"));
+        console.log(colors.green.bold("Database connection successfuly"));
     } catch (error) {
         //console.log(error);
-        console.log(colors.red.bold("Hubo un error al conectar a la base de datos de postgres"))
+        console.log(colors.red.bold("Error while connecting to database"))
     }
 })()
 
@@ -22,5 +25,7 @@ const server = express()
 server.use(express.json())
 
 server.use('/api/v1', router)
+
+server.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpect))
 
 export default server
