@@ -6,15 +6,29 @@ const dirModels = path.join(__dirname, '..', 'models', '**', '*.ts')
 
 const useSSL = `${process.env.DATABASE_SSL}` === 'true'
 
-const db = new Sequelize(
-    process.env.DATABASE_URI!,
-    {
+let db:Sequelize;
+
+if(process.env.DATABASE_URI){
+    db = new Sequelize(
+        process.env.DATABASE_URI!,
+        {
+            dialectOptions:{
+                ssl: useSSL
+            },
+            models: [dirModels],
+            logging: false
+        })
+}else{
+    db = new Sequelize({
+        dialect:'sqlite',
+        storage: './database.sqlite',
         dialectOptions:{
             ssl: useSSL
         },
-        models: [dirModels]
-    }
-)
+        models:[dirModels],
+    })
+}
+
 /*
     Para que TS reconozca los decoradores y nos deje compilar la app
     se deberá agregar en el tsconfig las siguientes opciones en compilerOptions
